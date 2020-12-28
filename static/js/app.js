@@ -5,6 +5,7 @@ function buildMetadata(sample) {
 
     // Specify the location of the metadata 
     sampleMetadataElement = d3.select("#sample-metadata");
+    sampleMetadataElement.html("");
     var tbody = sampleMetadataElement.append("tbody");
 
     // Parse and filter the data to get the sample's metadata and update it
@@ -150,10 +151,11 @@ function init() {
         
         // Add dropdown option for each sample
         dropdownElement.html("");
-        dropdownElement.append("option").text(sampleIds[0]).attr("value",sampleIds[0]);
         sampleIds.forEach(item => {
             dropdownElement.append("option").text(item).attr("value",item);
         });
+        // select first item on dropdown list
+        sampleIds.selectedIndex = 0;
 
         // Use first sample to build metadata and initial plots
         console.log(weAPIdata.metadata[0]);
@@ -167,12 +169,16 @@ function optionChanged(newSample){
 
     console.log(newSample);
 
-    // Update metadata with newly selected sample
-    buildMetadata(weAPIdata.metadata[0]);
-    
-    // Update charts with newly selected sample
-    buildCharts(weAPIdata, 0);
+    d3.json("../../samples.json").then((weAPIdata) => {
 
+        sampleIndex = weAPIdata.names.indexOf(newSample);
+ 
+        // Update metadata with newly selected sample
+        buildMetadata(weAPIdata.metadata[sampleIndex]);
+        
+        // Update charts with newly selected sample
+        buildCharts(weAPIdata, sampleIndex);
+    });
 }
 
 // Initialize dashboard on page load
