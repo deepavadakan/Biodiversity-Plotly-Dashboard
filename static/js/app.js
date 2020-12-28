@@ -1,43 +1,33 @@
-/* The following is an example on how you might structure your code.
-This is not the only way to complete this assignment.
-Feel free to disregard and create your own code */
 
-// Define a function that will create metadata for given sample
-function buildMetadata(sample) {
-
-    // Read the json data
-
-        // Parse and filter the data to get the sample's metadata
-
-        // Specify the location of the metadata and update it
-
-}
-
-// Define a function that will create charts for given sample
-function buildCharts(sample) {
-
-    // Read the json data
-
-        // Parse and filter the data to get the sample's OTU data
-        // Pay attention to what data is required for each chart
-
-        // Create bar chart in correct location
-
-        // Create bubble chart in correct location
-    
-}
 
 // Define function that will run on page load
 function init() {
 
     // Read json data
+    d3.json("../../samples.json").then((weAPIdata) => {
+
+        console.log(weAPIdata);
 
         // Parse and filter data to get sample names
+        sampleIds = weAPIdata.names;
+        console.log(sampleIds);
+        console.log(sampleIds[0]);
 
+        dropdownElement = d3.select("#selDataset")
+        
         // Add dropdown option for each sample
+        dropdownElement.html("");
+        dropdownElement.append("option").text(sampleIds[0]).attr("value",sampleIds[0]);
+        sampleIds.forEach(item => {
+            dropdownElement.append("option").text(item).attr("value",item);
+        });
 
-    // Use first sample to build metadata and initial plots
+        // Use first sample to build metadata and initial plots
+        console.log(weAPIdata.metadata[0]);
+        buildMetadata(weAPIdata.metadata[0]);
+        buildCharts(weAPIdata, 0);
 
+      });
 }
 
 function optionChanged(newSample){
