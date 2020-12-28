@@ -92,7 +92,46 @@ function plotBubble(sampleData) {
       Plotly.newPlot('bubble', data, layout);
 }
 
+// function to plot a gauge chart
+function plotGauge(wFreq) {
+    console.log(wFreq);
 
+    var data = [
+        {
+          type: "indicator",
+          mode: "gauge+number+delta",
+          value: wFreq,
+          title: { text: "Scrubs per Week", font: { size: 20 } },
+          //delta: { reference: 4, increasing: { color: "RebeccaPurple" } },
+          gauge: {
+            axis: { range: [null, 9], tickwidth: 1, tickcolor: "darkblue" },
+            bar: { color: "darkblue" },
+            bgcolor: "white",
+            borderwidth: 2,
+            bordercolor: "gray",
+            steps: [
+              { range: [0, 1], color: "#E1F5FE" },
+              { range: [1, 2], color: "#81D4FA" },
+              { range: [2, 3], color: "#4FC3F7" },
+              { range: [3, 4], color: "#29B6F6" },
+              { range: [4, 5], color: "#03A9F4" },
+              { range: [5, 6], color: "#039BE5" },
+              { range: [6, 7], color: "#0288D1" },
+              { range: [7, 8], color: "#0277BD" },
+              { range: [8, 9], color: "#01579B" }
+            ]
+          }
+        }
+      ];
+      
+      var layout = {
+        title: { text: "Belly Button Washing Frequency", font: { size: 24 } },
+       // paper_bgcolor: "lavender",
+        //font: { color: "darkblue", family: "Arial" }
+      };
+      
+      Plotly.newPlot('gauge', data, layout);
+}
 
 // Define function that will run on page load
 function init() {
