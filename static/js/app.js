@@ -165,9 +165,13 @@ function init() {
 
 function optionChanged(newSample){
 
-    // Update metadata with newly selected sample
+    console.log(newSample);
 
+    // Update metadata with newly selected sample
+    buildMetadata(weAPIdata.metadata[0]);
+    
     // Update charts with newly selected sample
+    buildCharts(weAPIdata, 0);
 
 }
 
