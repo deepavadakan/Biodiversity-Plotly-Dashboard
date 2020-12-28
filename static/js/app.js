@@ -66,6 +66,33 @@ function plotBar(sampleData) {
       Plotly.newPlot("bar", data, layout);
 }
 
+// function to plot a Bubble chart
+function plotBubble(sampleData) {
+    
+    var trace1 = {
+        x: sampleData.otu_ids,
+        y: sampleData.sample_values,
+        text: sampleData.otu_labels,
+        mode: 'markers',
+        marker: {
+          color: sampleData.otu_ids,
+          size: sampleData.sample_values
+        }
+      };
+      
+      var data = [trace1];
+      
+      var layout = {
+        xaxis: {
+            title: 'OTU ID'
+        },
+        showlegend: false
+      };
+      
+      Plotly.newPlot('bubble', data, layout);
+}
+
+
 
 // Define function that will run on page load
 function init() {
