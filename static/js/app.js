@@ -15,6 +15,57 @@ function buildMetadata(sample) {
 
 }
 
+// Function that will create charts for given sample
+function buildCharts(data, sampleID) {
+
+    console.log(data);
+
+    sample = data.samples[sampleID];
+
+    // Create bar chart in correct location
+    plotBar(sample);
+
+    // Create bubble chart in correct location
+    plotBubble(sample);
+
+    // Create gauge chart in correct location
+    plotGauge(data.metadata[sampleID]['wfreq']);
+}
+
+// Define a function to plot a bar chart
+function plotBar(sampleData) {
+    
+    top10OTUIDs = sampleData.otu_ids.slice(0,10).reverse();
+    
+    var x = [];
+    var y = [];
+
+    var trace1 = {
+        x: sampleData.sample_values.slice(0,10).reverse(),
+        y: top10OTUIDs.map(item => "OTU " + item),
+        text: sampleData.otu_labels.slice(0,10).reverse(),
+        type: "bar",
+        orientation: "h"
+      };
+    
+      // data
+      var data = [trace1];
+      
+      // Apply the group bar mode to the layout
+      var layout = {
+        title: "Top 10 OTUs",
+        margin: {
+          l: 100,
+          r: 100,
+          t: 100,
+          b: 100
+        }
+      };
+      
+      // Render the plot to the div tag with id "bar"
+      Plotly.newPlot("bar", data, layout);
+}
+
 
 // Define function that will run on page load
 function init() {
