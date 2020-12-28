@@ -1,5 +1,21 @@
 
 
+// Define a function that will create metadata for given sample
+function buildMetadata(sample) {
+
+    // Specify the location of the metadata 
+    sampleMetadataElement = d3.select("#sample-metadata");
+    var tbody = sampleMetadataElement.append("tbody");
+
+    // Parse and filter the data to get the sample's metadata and update it
+    Object.entries(sample).forEach(([key, value]) => {
+        var row = tbody.append("tr");
+        row.text(key +": " + value);
+      });      
+
+}
+
+
 // Define function that will run on page load
 function init() {
 
