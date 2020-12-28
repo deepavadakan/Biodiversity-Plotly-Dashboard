@@ -1,6 +1,4 @@
-
-
-// Define a function that will create metadata for given sample
+// Ffunction that will create metadata for given sample
 function buildMetadata(sample) {
 
     // Specify the location of the metadata 
@@ -69,6 +67,9 @@ function plotBar(sampleData) {
 
 // function to plot a Bubble chart
 function plotBubble(sampleData) {
+    
+    var x = [];
+    var y = [];
     
     var trace1 = {
         x: sampleData.otu_ids,
