@@ -139,7 +139,7 @@ function plotGauge(wFreq) {
 function init() {
 
     // Read json data
-    d3.json("../../samples.json").then((weAPIdata) => {
+    d3.json("samples.json").then((weAPIdata) => {
 
         console.log(weAPIdata);
 
@@ -170,7 +170,7 @@ function optionChanged(newSample){
 
     console.log(newSample);
 
-    d3.json("../../samples.json").then((weAPIdata) => {
+    d3.json("samples.json").then((weAPIdata) => {
 
         sampleIndex = weAPIdata.names.indexOf(newSample);
  
