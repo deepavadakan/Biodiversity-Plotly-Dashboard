@@ -44,7 +44,11 @@ function plotBar(sampleData) {
         y: top10OTUIDs.map(item => "OTU " + item),
         text: sampleData.otu_labels.slice(0,10).reverse(),
         type: "bar",
-        orientation: "h"
+        orientation: "h",
+        marker: {
+          color: sampleData.otu_ids,
+          colorscale: 'Jet'
+        }
       };
     
       // data
@@ -78,8 +82,10 @@ function plotBubble(sampleData) {
         mode: 'markers',
         marker: {
           color: sampleData.otu_ids,
-          size: sampleData.sample_values
-        }
+          size: sampleData.sample_values,
+          colorscale: 'Blackbody'
+        },
+        
       };
       
       var data = [trace1];
@@ -101,10 +107,9 @@ function plotGauge(wFreq) {
     var data = [
         {
           type: "indicator",
-          mode: "gauge+number+delta",
+          mode: "gauge+number",
           value: wFreq,
           title: { text: "Scrubs per Week", font: { size: 20 } },
-          //delta: { reference: 4, increasing: { color: "RebeccaPurple" } },
           gauge: {
             axis: { range: [null, 9], tickwidth: 1, tickcolor: "darkblue" },
             bar: { color: "darkblue" },
@@ -128,8 +133,6 @@ function plotGauge(wFreq) {
       
       var layout = {
         title: { text: "Belly Button Washing Frequency", font: { size: 24 } },
-       // paper_bgcolor: "lavender",
-        //font: { color: "darkblue", family: "Arial" }
       };
       
       Plotly.newPlot('gauge', data, layout);
