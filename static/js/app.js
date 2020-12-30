@@ -11,15 +11,15 @@ function buildMetadata(sample) {
         var row = tbody.append("tr");
         row.text(key +": " + value);
       });      
-
 }
 
 // Function that will create charts for given sample
-function buildCharts(data, sampleID) {
+function buildCharts(data, index) {
 
     console.log(data);
 
-    sample = data.samples[sampleID];
+    // Find the sample given the index
+    sample = data.samples[index];
 
     // Create bar chart in correct location
     plotBar(sample);
@@ -28,12 +28,13 @@ function buildCharts(data, sampleID) {
     plotBubble(sample);
 
     // Create gauge chart in correct location
-    plotGauge(data.metadata[sampleID]['wfreq']);
+    plotGauge(data.metadata[index]['wfreq']);
 }
 
 // Define a function to plot a bar chart
 function plotBar(sampleData) {
     
+    // Find the top 10 OTU IDs
     top10OTUIDs = sampleData.otu_ids.slice(0,10).reverse();
     
     var x = [];
@@ -54,15 +55,9 @@ function plotBar(sampleData) {
       // data
       var data = [trace1];
       
-      // Apply the group bar mode to the layout
+      // layout
       var layout = {
-        title: "Top 10 OTUs",
-        margin: {
-          l: 100,
-          r: 100,
-          t: 100,
-          b: 100
-        }
+        title: "Top 10 OTUs"
       };
       
       // Render the plot to the div tag with id "bar"
@@ -88,8 +83,10 @@ function plotBubble(sampleData) {
         
       };
       
+      // data
       var data = [trace1];
       
+      // layout
       var layout = {
         xaxis: {
             title: 'OTU ID'
@@ -97,6 +94,7 @@ function plotBubble(sampleData) {
         showlegend: false
       };
       
+      // Render the plot to the div tag with id "bubble"
       Plotly.newPlot('bubble', data, layout);
 }
 
@@ -104,6 +102,7 @@ function plotBubble(sampleData) {
 function plotGauge(wFreq) {
     console.log(wFreq);
 
+    // data
     var data = [
         {
           type: "indicator",
@@ -131,10 +130,12 @@ function plotGauge(wFreq) {
         }
       ];
       
+      // layout
       var layout = {
         title: { text: "Belly Button Washing Frequency", font: { size: 24 } },
       };
       
+      // Render the plot to the div tag with id "gauge"
       Plotly.newPlot('gauge', data, layout);
 }
 
@@ -149,7 +150,6 @@ function init() {
         // Parse and filter data to get sample names
         sampleIds = weAPIdata.names;
         console.log(sampleIds);
-        console.log(sampleIds[0]);
 
         dropdownElement = d3.select("#selDataset")
         
@@ -165,23 +165,24 @@ function init() {
         console.log(weAPIdata.metadata[0]);
         buildMetadata(weAPIdata.metadata[0]);
         buildCharts(weAPIdata, 0);
-
       });
 }
 
-function optionChanged(newSample){
+// Funtion to run when a new Sample is selected
+function optionChanged(sampleID){
 
-    console.log(newSample);
+    console.log(sampleID);
 
     d3.json("samples.json").then((weAPIdata) => {
 
-        sampleIndex = weAPIdata.names.indexOf(newSample);
+      // Find the index of the selected sample
+      sampleIndex = weAPIdata.names.indexOf(sampleID);
  
-        // Update metadata with newly selected sample
-        buildMetadata(weAPIdata.metadata[sampleIndex]);
-        
-        // Update charts with newly selected sample
-        buildCharts(weAPIdata, sampleIndex);
+      // Update metadata with newly selected sample
+      buildMetadata(weAPIdata.metadata[sampleIndex]);
+      
+      // Update charts with newly selected sample
+      buildCharts(weAPIdata, sampleIndex);
     });
 }
 
